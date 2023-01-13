@@ -7,6 +7,9 @@ import (
 	"path/filepath"
 )
 
+const logDirectory = "./log"
+const logFile = "listener.log"
+
 // GeneralLogger exported
 var Info *log.Logger
 
@@ -14,12 +17,12 @@ var Info *log.Logger
 var Error *log.Logger
 
 func init() {
-	absPath, err := filepath.Abs("./log")
+	absPath, err := filepath.Abs(logDirectory)
 	if err != nil {
-		fmt.Println("Error reading given path:", err)
+		os.Mkdir(logDirectory, 0755)
 	}
 
-	generalLog, err := os.OpenFile(absPath+"/general-log.log", os.O_RDWR|os.O_CREATE|os.O_APPEND, 0666)
+	generalLog, err := os.OpenFile(absPath+logFile, os.O_RDWR|os.O_CREATE|os.O_APPEND, 0666)
 	if err != nil {
 		fmt.Println("Error opening file:", err)
 		os.Exit(1)
