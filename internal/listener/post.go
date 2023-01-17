@@ -3,6 +3,7 @@ package listener
 import (
 	"bytes"
 	"encoding/json"
+	"fmt"
 	"net/http"
 	"strconv"
 
@@ -19,11 +20,20 @@ type Board struct {
 	Os   string `json:"os,omitempty"`
 }
 
+type PostData struct {
+	name            string
+	operatingSystem string
+	outputs         []string
+}
+
 func populateBody() {
 	var err error
-	reqBody, err = json.Marshal(map[string]string{
-		"name":            "GoTest",
-		"operatingSystem": "Arduino"})
+
+	postdata := PostData{name: "GoTest", operatingSystem: "Arduino", outputs: []string{"PLANE LATITUDE"}}
+	reqBody, err = json.MarshalIndent(postdata, "", "")
+
+	fmt.Println(postdata)
+
 	if err != nil {
 		log.Error.Println("Populate Body Failure %1", err)
 		return
