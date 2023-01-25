@@ -19,11 +19,12 @@ func Start(server string, channel chan Connection) {
 
 	channel <- Connection{port, "0.0.0.0", true}
 
-	fmt.Println("listening on port ", port)
+	fmt.Println("Listening on port: ", port)
 }
 
 // Request gets a port from the Listener
 func Request(server string) (port int) {
+
 	populateBody()
 
 	postRequest(server)

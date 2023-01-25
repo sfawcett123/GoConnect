@@ -8,7 +8,7 @@ import (
 func main() {
 	ch := make(chan listener.Connection, 3)
 
-	//listener.Start("https://localhost:27464/", ch)
+	listener.Start("https://localhost:27464/", ch)
 
 	go reciever.Start(ch)
 

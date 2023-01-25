@@ -12,6 +12,7 @@ import (
 
 var reqBody []byte
 var newBoard Board
+var postdata PostData
 
 type Board struct {
 	Name string `json:"name,omitempty"`
@@ -21,19 +22,16 @@ type Board struct {
 }
 
 type PostData struct {
-	name            string
-	operatingSystem string
-	outputs         []string
+	Name            string
+	OperatingSystem string
+	Outputs         []string
 }
 
 func populateBody() {
 	var err error
 
-	postdata := PostData{name: "GoTest", operatingSystem: "Arduino", outputs: []string{"PLANE LATITUDE"}}
-	reqBody, err = json.MarshalIndent(postdata, "", "")
-
-	fmt.Println(postdata)
-
+	postdata = PostData{Name: "AH interface board", OperatingSystem: "Linux", Outputs: []string{"PLANE LATITUDE"}}
+	reqBody, err = json.Marshal(postdata)
 	if err != nil {
 		log.Error.Println("Populate Body Failure %1", err)
 		return
@@ -52,6 +50,8 @@ func postRequest(server string) {
 	if err != nil {
 		log.Error.Println("Decoder Error ", err)
 	}
+
+	fmt.Println("Board Information: ", newBoard)
 }
 
 func GetPort() (port int) {
