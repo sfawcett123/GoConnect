@@ -25,13 +25,16 @@ func Start(channel chan listener.Connection) {
 
 	select {
 	case msg := <-channel:
-		fmt.Println("New Port ", msg.Port)
 		port = msg.Port
 	default:
 	}
 
 	// Connect to Client
 	tcpServer, err := net.ResolveTCPAddr(TYPE, HOST+":"+strconv.Itoa(port))
+	if err != nil {
+		log.Error.Println(err)
+		log.Error.Fatalln("Error Resolving TCP Address ")
+	}
 	conn, err = net.DialTCP(TYPE, nil, tcpServer)
 	if err != nil {
 		log.Error.Println(err)
@@ -41,11 +44,18 @@ func Start(channel chan listener.Connection) {
 
 	// Send some JSON data
 	json_data, _ := json.Marshal(map[string]string{
-		"AIRCRAFT_HEADING": "1010",
+		"AIRCRAFT_HEADING": "1101",
 		"BUTTON_X":         "OFF"})
 
-	fmt.Println(string(json_data))
+	fmt.Println("Message Sent:", string(json_data))
 	_, _ = conn.Write([]byte(string(json_data)))
+
+	json_data2, _ := json.Marshal(map[string]string{
+		"AIRCRAFT_HEADING": "1302",
+		"BUTTON_X":         "OFF"})
+
+	fmt.Println("Message Sent:", string(json_data2))
+	_, _ = conn.Write([]byte(string(json_data2)))
 
 	// Read some JSON data
 	for {
