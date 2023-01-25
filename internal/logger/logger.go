@@ -19,7 +19,11 @@ var Error *log.Logger
 func init() {
 	absPath, err := filepath.Abs(logDirectory)
 	if err != nil {
-		os.Mkdir(logDirectory, 0755)
+		err = os.Mkdir(logDirectory, 0755)
+		if err != nil {
+			fmt.Println("Cannot create directory:", err)
+			os.Exit(1)
+		}
 	}
 
 	generalLog, err := os.OpenFile(absPath+logFile, os.O_RDWR|os.O_CREATE|os.O_APPEND, 0666)

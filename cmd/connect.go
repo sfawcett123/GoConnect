@@ -3,6 +3,7 @@ package main
 import (
 	"github.com/sfawcett123/GoConnect/internal/listener"
 	"github.com/sfawcett123/GoConnect/internal/reciever"
+	"time"
 )
 
 func main() {
@@ -12,6 +13,7 @@ func main() {
 
 	go reciever.Start(ch)
 
-	for {
+	for i := 0; i < 100; i++ {
+		time.Sleep(5 * time.Second)
 	}
 }

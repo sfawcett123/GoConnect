@@ -31,6 +31,10 @@ func Start(channel chan listener.Connection) {
 
 	// Connect to Client
 	tcpServer, err := net.ResolveTCPAddr(TYPE, HOST+":"+strconv.Itoa(port))
+	if err != nil {
+		log.Error.Println(err)
+		log.Error.Fatalln("Error Resolving TCP Address ")
+	}
 	conn, err = net.DialTCP(TYPE, nil, tcpServer)
 	if err != nil {
 		log.Error.Println(err)
